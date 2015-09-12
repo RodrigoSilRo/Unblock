@@ -4,7 +4,7 @@
 
 def createemptymatrix():
 #creates a 6x6 zero-filled matrix
-	matrix = [[0 for x in range(6)]for x in range(6)]
+	matrix = [["---" for x in range(6)]for x in range(6)]
 	return matrix
 	
 def up(matrix, veh):
@@ -15,11 +15,11 @@ def up(matrix, veh):
 				if matrix[i][j] == veh:
 					if veh[1]=='C':
 						if (i-1>-1): #if it wont get out of the boundary
-							if (matrix[i-1][j] == 0): #if it wont hit another vehicle
+							if (matrix[i-1][j] == "---"): #if it wont hit another vehicle
 								#move up!
 								matrix[i-1][j] = veh;
 								matrix[i][j] = veh;
-								matrix[i+1][j] = 0;
+								matrix[i+1][j] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -28,12 +28,12 @@ def up(matrix, veh):
 							
 					if veh[1]=="T":
 						if (i-1>-1): #if it wont get out of the boundary
-							if (matrix[i-1][j] == 0): #if it wont hit another vehicle
+							if (matrix[i-1][j] == "---"): #if it wont hit another vehicle
 								#move up!
 								matrix[i-1][j] = veh;
 								matrix[i][j] = veh;
 								matrix[i+1][j] = veh;
-								matrix[i+2][j] = 0;
+								matrix[i+2][j] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -49,10 +49,10 @@ def down(matrix, veh):
 				if matrix[i][j] == veh:
 					if veh[1]=='C':
 						if (i+2<6):
-							if(matrix[i+2][j] == 0):
+							if(matrix[i+2][j] == "---"):
 								matrix[i+2][j] = veh;
 								matrix[i+1][j] = veh;
-								matrix[i][j] = 0;
+								matrix[i][j] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -61,11 +61,11 @@ def down(matrix, veh):
 							
 					if veh[1]=='T':
 						if (i+3<6):
-							if(matrix[i+3][j] == 0):
+							if(matrix[i+3][j] == "---"):
 								matrix[i+3][j] = veh;
 								matrix[i+2][j] = veh;
 								matrix[i+1][j] = veh;
-								matrix[i][j] = 0;
+								matrix[i][j] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -82,10 +82,10 @@ def left(matrix, veh):
 				if matrix[i][j] == veh:
 					if veh[1]=="C":
 						if (j-1>-1):
-							if (matrix[i][j-1] == 0):
+							if (matrix[i][j-1] == "---"):
 								matrix[i][j-1] = veh;
 								matrix[i][j] = veh;
-								matrix[i][j+1] = 0;
+								matrix[i][j+1] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -94,11 +94,11 @@ def left(matrix, veh):
 							
 					if veh[1]=="T":
 						if (j-1>-1):
-							if (matrix[i][j-1] == 0):
+							if (matrix[i][j-1] == "---"):
 								matrix[i][j-1] = veh;
 								matrix[i][j] = veh;
 								matrix[i][j+1] = veh;
-								matrix[i][j+2] = 0;
+								matrix[i][j+2] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -115,10 +115,10 @@ def right(matrix, veh):
 				if matrix[i][j] == veh:
 					if veh[1]=="C":
 						if (j+2<6):
-							if(matrix[i][j+2] == 0):
+							if(matrix[i][j+2] == "---"):
 								matrix[i][j+2] = veh;
 								matrix[i][j+1] = veh;
-								matrix[i][j] = 0;
+								matrix[i][j] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -127,11 +127,11 @@ def right(matrix, veh):
 							
 					if veh[1]=="T":
 						if (j+3<6):
-							if(matrix[i][j+3] == 0):
+							if(matrix[i][j+3] == "---"):
 								matrix[i][j+3] = veh;
 								matrix[i][j+2] = veh;
 								matrix[i][j+1] = veh;
-								matrix[i][j] = 0;
+								matrix[i][j] = "---";
 								return "Done"
 							else:
 								return "Error"
@@ -145,21 +145,45 @@ def printmatrix(matrix):
 	for i in range(6):
 		print matrix[i]
 		
+def pgame(matrix):
+	print matrix[0]
+	print matrix[1]
+	print matrix[2] ,"EXIT"
+	print matrix[3]
+	print matrix[4]
+	print matrix[5]
+		
 def createfield():
 #this is our pre-defined field (game level)
 	matrix=createemptymatrix()
+	
+	matrix[2][0]="MC0"
+	matrix[2][1]="MC0"
+	
+	matrix[0][0]="HT1"
+	matrix[0][1]="HT1"
+	matrix[0][2]="HT1"
+	
+	matrix[5][0]="HT2"
+	matrix[5][1]="HT2"
+	matrix[5][2]="HT2"
+	
+	matrix[3][4]="HC1"
+	matrix[3][5]="HC1"
+
+	matrix[3][0]="VC1"
+	matrix[4][0]="VC1"
+	
+	matrix[4][4]="VC2"
+	matrix[5][4]="VC2"
+	
 	matrix[1][2]="VT1"
 	matrix[2][2]="VT1"
 	matrix[3][2]="VT1"
 	
-	
-	matrix[4][2]="HT1"
-	matrix[4][3]="HT1"
-	matrix[4][4]="HT1"
-	
-	
-	matrix[2][0]="MC0"
-	matrix[2][1]="MC0"
+	matrix[0][5]="VT2"
+	matrix[1][5]="VT2"
+	matrix[2][5]="VT2"
 	
 	return matrix
 		
