@@ -1,5 +1,3 @@
-openList=[]
-closedList=[]
 
 
 def breadth():
@@ -14,6 +12,10 @@ def breadth():
 3:1
 3:2
 """
+
+
+#Store Initial State
+anodes.append(Node(depth,width,gridCopy(grid)))
 
     for depth
       width=1
