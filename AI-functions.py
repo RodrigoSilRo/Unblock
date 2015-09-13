@@ -28,32 +28,40 @@ def gridCopy(oldMatrix):
     return newMatrix
 
 #Try all moves for all cars and store states for them
-def makeChildren(currentGrid):
+def makeChildren(grid):
+    #for each car
+
     for elem in cars:
-        if up(currentGrid, cars) == "Done":
 
 
+        #try up, if yes...
+        currentGrid=gridCopy(grid)
+        if up(currentGrid, elem) == "Done":
+            print "up"
             #New Node
-            anodes.append(Node(depth,width,(grid)))
+            anodes.append(Node(depth,width,currentGrid))
+            openList.append(anodes[len(anodes)-1])
 
+        #try down, if yes..
+        currentGrid=gridCopy(grid)
+        if down(currentGrid, elem) == "Done":
+            print "down"
+            #New Node
+            anodes.append(Node(depth,width,currentGrid))
+            openList.append(anodes[len(anodes)-1])
 
-            #Update screen with vitals
-            pgame(grid)
-            print "Notes visited",len(Node)
-            print "Length of path", depth
-            print "Open List length"
-            print "Closed List length"
+        #try left, if yes..
+        currentGrid=gridCopy(grid)
+        if left(currentGrid, elem) == "Done":
+            print "left"
+            #New Node
+            anodes.append(Node(depth,width,currentGrid))
+            openList.append(anodes[len(anodes)-1])
 
-        if down(anodes[currentNode].matrix, cars) == "Done":
-            "yay - down"
-            #Node.matrix=gridname
-        if left(anodes[currentNode].matrix, cars) == "Done":
-            "yay - left"
-            #Node.matrix=gridname
-        if right(anodes[currentNode].matrix, cars) == "Done":
-            "yay - right"
-            #Node.matrix=gridname
-
-
-        if evaluate(grid)=="WON"
-            goal=width
+        #try right, if yes..
+        currentGrid=gridCopy(grid)
+        if right(currentGrid, elem) == "Done":
+            print "right"
+            #New Node
+            anodes.append(Node(depth,width,currentGrid))
+            openList.append(anodes[len(anodes)-1])

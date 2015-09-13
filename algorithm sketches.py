@@ -36,12 +36,16 @@ anodes.append(Node(depth,width,gridCopy(grid)))
                 closedList.append("""currentNode""")
 
 
-                #Update screen with vitals
-                pgame(grid)
-                print "Notes visited",len(anodes)
-                print "Length of path", depth
-                #print "Open List length"    is this necessary?
-                print "Closed List length"
+
+
+
+
+            #Update screen with vitals
+            pgame(grid)
+            print "Number of states created",len(anodes)
+            print "Length of path", depth
+            print "Open List length", len(openList)
+            print "Closed List length", len(closedList)
 
                 if evaluate=="WON":
                     #then stop....   set depth range to current?
@@ -53,7 +57,8 @@ anodes.append(Node(depth,width,gridCopy(grid)))
             left
             right
 
-
+                if evaluate(currentGrid)=="WON"
+                    goal=width
 
 def depth():
 
