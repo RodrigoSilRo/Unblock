@@ -1,3 +1,5 @@
+from AIfuncitons import *
+
 
 
 def breadth():
@@ -17,7 +19,7 @@ def breadth():
 #Store Initial State
 anodes.append(Node(depth,width,gridCopy(grid)))
 
-    for depth
+    for depth in #i have no idea
       width=1
 
       for elem cars #move every single car
@@ -40,12 +42,6 @@ anodes.append(Node(depth,width,gridCopy(grid)))
 
 
 
-            #Update screen with vitals
-            pgame(grid)
-            print "Number of states created",len(anodes)
-            print "Length of path", depth
-            print "Open List length", len(openList)
-            print "Closed List length", len(closedList)
 
                 if evaluate=="WON":
                     #then stop....   set depth range to current?
