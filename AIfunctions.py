@@ -12,7 +12,7 @@ cars=["HT1","HT2","HC1","MC0","VT1","VT2","VC1","VC2"]
 anodes=[]
 openList=[]
 closedList=[]
-path = 1
+tree = 1
 widthCounter = 1
 
 class Node(object):
@@ -151,7 +151,8 @@ def breadth():
             break
         elif gameWon == False:
             depth=x+1
-            path = depth
+            global tree
+            tree = depth
             #reset width counter
             print "widthCounter reset"
             global widthCounter
@@ -172,7 +173,8 @@ def breadth():
                         stats(anodes[currentNode].matrix)
                         gameWon == True
                         print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
-                        sys.exit()
+                        print "Length of path is:", anodes[currentNode].depth
+                        return
                     elif evaluate(anodes[currentNode].matrix) == "NOT YET":
                         print "Not Winner"
 
