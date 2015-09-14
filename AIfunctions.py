@@ -188,6 +188,7 @@ def breadth():
 
                         beforeBirth = len(anodes)
 
+
                         #Make Children of current state
                         makeChildren(anodes[currentNode].matrix, (anodes[currentNode].depth)+1)
                         print "Children made!"
@@ -241,15 +242,78 @@ def breadth():
 
 
 def depth():
+    print "Declare variables"
+    depth=1
+    width=1
+    bigNumber = 100000
+    currentNode = 0
+    gameWon = False
+    counterNewKids = 0
+    previousNodesAtWidth = 0
+
+    cls()
+
+    print "Store Initial State"
+    #Store Initial State
+    anodes.append(Node(depth,width,gridCopy(grid)))
+    openList.append(anodes[0])
 
 
-    """
-    1:1
-    2:1
-    3:1
-    4:1
-    5:1
-    2:2
-    3:2
-    4:2
-    """
+    for x in range(bigNumber):
+
+        #if is not in closed list
+        if visitedPreviously(anodes[currentNode]) == False:
+
+            #evaluate for winner
+            if evaluate(openList[0].matrix) == "WON":
+                stats(openList[0].matrix)
+                gameWon == True
+                print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
+                sys.exit()
+            elif evaluate(openList[0].matrix) == "NOT YET":
+                print "Not Winner"
+
+                #make Children
+                beforeBirth = len(anodes)
+                print "beforeBirth ", beforeBirth
+
+                #set widthCounter
+                for elem in anodes:
+                    print "Looking for nodes at same depth as children to be made"
+                    if elem.depth == openList[0].depth+1:
+                        previousNodesAtWidth+=1
+                        print "New node found at depth, total now= ", previousNodesAtWidth
+
+                widthCounter = previousNodesAtWidth
+
+
+                #Make Children of current state
+                makeChildren(openList[0].matrix, openList[0].depth+1)
+                print "Children made!"
+
+                afterBirth = len(anodes)
+                print "afterBirth ", afterBirth
+                #add children to openList
+
+
+                for y in range(afterBirth-beforeBirth):
+                    print "y=", y, "in range: ", afterBirth-beforeBirth
+                    openList.insert(0, anodes[(len(anodes)-1)-y])
+
+                    print "length ", (len(anodes)-y)
+
+
+                #add to closed list
+                closedList.append(openList[0])
+                print "Added to Closed list"
+                print "Length of Closed list", len(closedList)
+                #remove from open list
+                print "currentNode ", currentNode
+                openList.remove(openList[0])
+                print "Removed from open list"
+                print "Length of open List", len(openList)
+
+        else:
+            print "Node SHOCKINGLY already visited"
+            #Go to next node
+            #raw_input("presskeytoadvance")
