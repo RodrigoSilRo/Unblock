@@ -13,8 +13,8 @@ anodes=[]
 openList=[]
 closedList=[]
 ###
-depth=1
-width=1
+#depth=1
+#width=1
 ###
 
 class Node(object):
@@ -54,6 +54,7 @@ def newNode(currentGrid):
             existPreviously = True
 
     if existPreviously == False:
+
         #New Node
         anodes.append(Node(depth,width,currentGrid))
         openList.append(anodes[len(anodes)-1])
