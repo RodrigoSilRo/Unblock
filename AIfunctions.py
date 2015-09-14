@@ -265,7 +265,7 @@ def depth():
 
         #if is not in closed list
         if visitedPreviously(anodes[currentNode]) == False:
-
+            print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
             #evaluate for winner
             if evaluate(openList[0].matrix) == "WON":
                 stats(openList[0].matrix)
@@ -278,6 +278,8 @@ def depth():
                 #make Children
                 beforeBirth = len(anodes)
                 print "beforeBirth ", beforeBirth
+
+                previousNodesAtWidth=0
 
                 #set widthCounter
                 for elem in anodes:
@@ -295,25 +297,31 @@ def depth():
 
                 afterBirth = len(anodes)
                 print "afterBirth ", afterBirth
+
+
                 #add children to openList
-
-
                 for y in range(afterBirth-beforeBirth):
                     print "y=", y, "in range: ", afterBirth-beforeBirth
                     openList.insert(0, anodes[(len(anodes)-1)-y])
 
                     print "length ", (len(anodes)-y)
-
+                    print "Length of oepn list", len(openList)
+                    for elem in openList:
+                        print elem.depth, ":", elem.width, elem
 
                 #add to closed list
                 closedList.append(openList[0])
                 print "Added to Closed list"
                 print "Length of Closed list", len(closedList)
+                for elem in closedList:
+                    print elem.depth, ":", elem.width, elem
                 #remove from open list
                 print "currentNode ", currentNode
                 openList.remove(openList[0])
                 print "Removed from open list"
                 print "Length of open List", len(openList)
+
+                raw_input("waitingforkeypress")
 
         else:
             print "Node SHOCKINGLY already visited"
