@@ -19,15 +19,17 @@ def visitedPreviously(node):
                 return existPreviously
 
 def nodeAtDepthWidth(depth, width):
-    nodePresent = False
+    print "looking for next node over within function"
+    #nodePresent = False
     for elem in anodes:
+        print elem.depth, elem.width
         if elem.depth == depth and elem.width == width:
-            nodePresent = True
+            #nodePresent = True
             print "next node over has been found"
-            return nodePresent
+            #return nodePresent
         else:
             print "there is no node next over"
-            return nodePresent
+            #return nodePresent
 
 
 def breadth():
@@ -37,7 +39,7 @@ def breadth():
     bigNumber = 100000
     currentNode = 0
     gameWon = False
-    lastAfterBirth = 0
+
 
     cls()
 
@@ -52,6 +54,10 @@ def breadth():
         elif gameWon == False:
             depth=x+1
             path = depth
+            #reset width counter
+            global widthCounter
+            widthCounter=1
+            print "Width counter reset should now be 1, but it is ", widthCounter
             print "Depth is now", depth
             for y in range(bigNumber):
                 width = y+1
@@ -69,6 +75,7 @@ def breadth():
                         print "Not Winner"
 
                         #remove from open list
+                        print "currentNode ", currentNode
                         openList.remove(anodes[currentNode])
                         print "Removed from open list"
                         #add to closed list
@@ -76,27 +83,16 @@ def breadth():
                         print "Added to Closed list"
                         print "Length of Closed list", len(closedList)
 
-                        beforeBirth=len(anodes)
-                        print "Number of nodes before birth", beforeBirth
+
                         #Make Children of current state
-                        makeChildren(anodes[currentNode].matrix)
-
-
-                        afterBirth=len(anodes)-beforeBirth
-                        print "Number of nodes after birth", afterBirth
-                        for x in range(afterBirth):
-                            anodes[afterBirth-x].depth=depth+1
-                            anodes[afterBirth-x].width=afterBirth-x+lastAfterBirth
-                            lastAfterbirth=afterBirth
-                            print "anodes[", afterBirth-x, "]", depth+1, ":", afterBirth-x+lastAfterbirth
-
+                        makeChildren(anodes[currentNode].matrix, (anodes[currentNode].depth)+1)
 
                         #if there is NOT a node at the current depth and next width
                         if nodeAtDepthWidth(depth, width+1) == False:
                             #go to line 28
                             currentNode+=1
-                            lastAfterbirth = 0
-                            print "There is no node at current depth and next width", depth, ":", width+1
+
+                            print "There is no node at next depth and next width", depth, ":", width+1
                             print "Moving to node", currentNode
                             stopping=raw_input('Waiting for poke')
                             break

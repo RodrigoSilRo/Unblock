@@ -13,6 +13,7 @@ anodes=[]
 openList=[]
 closedList=[]
 path = 1
+widthCounter = 1
 
 class Node(object):
     #States visited by algorithm
@@ -44,7 +45,7 @@ def stats(grid):
     print "Open List length", len(openList)
     print "Closed List length", len(closedList)
 
-def newNode(currentGrid):
+def newNode(currentGrid, depth):
     #check to make sure Node not previously created
     existPreviously = False
     for elem in anodes:
@@ -54,7 +55,9 @@ def newNode(currentGrid):
     if existPreviously == False:
         print "making a new node for ya"
         #New Node
-        anodes.append(Node(1,1,currentGrid))
+        global widthCounter
+        anodes.append(Node(depth,widthCounter,currentGrid))
+        widthCounter+=1
         openList.append(anodes[len(anodes)-1])
         stats(currentGrid)
 
@@ -62,43 +65,47 @@ def newNode(currentGrid):
 
 
 #Try all moves for all cars and store states for them
-def makeChildren(grid):
+def makeChildren(grid, depth):
+
     #for each car
     currentGrid = gridCopy(grid)
     for elem in cars:
 
         #try up, if yes...
         if up(currentGrid, elem) == "Done":
-            newNode(currentGrid)
             print "Moved up car", elem
+            newNode(currentGrid, depth)
+
             currentGrid = gridCopy(grid)
             if down(currentGrid, elem) == "Done":
-                newNode(currentGrid)
+                newNode(currentGrid, depth)
 
         #try down, if yes..
         elif down(currentGrid, elem) == "Done":
-            newNode(currentGrid)
             print "Moved down car", elem
+            newNode(currentGrid, depth)
+
             currentGrid = gridCopy(grid)
             if up(currentGrid, elem) == "Done":
-                newNode(currentGrid)
+                newNode(currentGrid, depth)
 
             #try left, if yes..
         elif left(currentGrid, elem) == "Done":
-            newNode(currentGrid)
             print "Moved left car", elem
+            newNode(currentGrid, depth)
+
             currentGrid = gridCopy(grid)
             if right(currentGrid, elem) == "Done":
-                newNode(currentGrid)
+                newNode(currentGrid, depth)
 
             #try right, if yes..
         elif right(currentGrid, elem) == "Done":
-            newNode(currentGrid)
             print "Moved right car", elem
+            newNode(currentGrid, depth)
+
             currentGrid = gridCopy(grid)
             if left(currentGrid, elem) == "Done":
-                newNode(currentGrid)
+                newNode(currentGrid, depth)
 
         else:
-            stats(grid)
-            print "No New Children"
+            print "tried car", elem, " and No New Children"
