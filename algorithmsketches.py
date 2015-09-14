@@ -18,19 +18,6 @@ def visitedPreviously(node):
                 print "node was not in closed list"
                 return existPreviously
 
-def nodeAtDepthWidth(depth, width):
-    print "looking for next node over within function"
-    #nodePresent = False
-    for elem in anodes:
-        print elem.depth, elem.width
-        if elem.depth == depth and elem.width == width:
-            #nodePresent = True
-            print "next node over has been found"
-            #return nodePresent
-        else:
-            print "there is no node next over"
-            #return nodePresent
-
 
 def breadth():
     print "Declare variables"
@@ -39,7 +26,7 @@ def breadth():
     bigNumber = 100000
     currentNode = 0
     gameWon = False
-
+    counterNewKids = 0
 
     cls()
 
@@ -55,8 +42,11 @@ def breadth():
             depth=x+1
             path = depth
             #reset width counter
+            print "widthCounter reset"
             global widthCounter
             widthCounter=1
+            counterDown=counterNewKids
+            counterNewKids=0
             print "Width counter reset should now be 1, but it is ", widthCounter
             print "Depth is now", depth
             for y in range(bigNumber):
@@ -80,38 +70,50 @@ def breadth():
                         print "Removed from open list"
                         #add to closed list
                         closedList.append(anodes[currentNode])
+                        counterDown-=1
                         print "Added to Closed list"
                         print "Length of Closed list", len(closedList)
 
+                        beforeBirth = len(anodes)
 
                         #Make Children of current state
                         makeChildren(anodes[currentNode].matrix, (anodes[currentNode].depth)+1)
+                        print "Children made!"
+
+                        afterBirth = len(anodes)
+
+                        counterNewKids+=afterBirth-beforeBirth
+
+                        #if there is a node at current depth and next width
+                        if counterDown>1:
+                                print "there should still be nodes left to breadthify"
+                                if visitedPreviously(anodes[currentNode]) == False:
+                                    #Go to next node
+                                    currentNode+=1
+                                    width+=1
+                                    print "Now headed for node", currentNode, "depth and with", depth, ":", width
+                                    raw_input("presskeytoadvance")
 
                         #if there is NOT a node at the current depth and next width
-                        if nodeAtDepthWidth(depth, width+1) == False:
+                        else:
                             #go to line 28
                             currentNode+=1
 
                             print "There is no node at next depth and next width", depth, ":", width+1
                             print "Moving to node", currentNode
-                            stopping=raw_input('Waiting for poke')
+                            raw_input("presskeytoadvance")
                             break
 
 
-                        #if there is a node at the current depth and next width
-                        if nodeAtDepthWidth(depth, width+1) == True:
-                            print "There is a node at current depth and next width", depth, ":", width+1
-                            if visitedPreviously(anodes[currentNode]) == False:
-                                #Go to next node
-                                currentNode+=1
-                                width+=1
-                                print "Now headed for node", currentNode, "depth and with", depth, ":", width
-                                stopping=raw_input('Waiting for poke')
+
+
+
                 else:
                     print "Node SHOCKINGLY already visited"
                     #Go to next node
+                    raw_input("presskeytoadvance")
                     currentNode+=1
-                    stopping=raw_input('Waiting for poke')
+
 
 
 

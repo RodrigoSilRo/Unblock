@@ -8,7 +8,7 @@ import time
 grid=createfield()
 pgame(grid)
 
-cars=["HT1","HT2","HC1","MC0","VT1","VT2","VC1","VC2"]
+cars=["HT1","HT2","HC1","MC1","VT1","VT2","VC1","VC2"]
 anodes=[]
 openList=[]
 closedList=[]
@@ -32,7 +32,7 @@ def cls():
 
 def stats(grid):
     #Update screen with vitals
-    #time.sleep(.15)
+    #time.sleep(.5)
     cls()
     print " "
     print " "
@@ -113,6 +113,7 @@ def makeChildren(grid, depth):
 
 
 
+
 def visitedPreviously(node):
     existPreviously = False
     if len(closedList) == 0:
@@ -128,6 +129,19 @@ def visitedPreviously(node):
                 print "node was not in closed list"
                 return existPreviously
 
+def nodeAtDepthWidth(depth, width):
+    print "looking for next node over within function"
+    #nodePresent = False
+    for elem in anodes:
+        print elem.depth, elem.width
+        if elem.depth == depth and elem.width == width:
+            #nodePresent = True
+            print "next node over has been found"
+            #return nodePresent
+        else:
+            print "there is no node next over"
+            #return nodePresent
+
 
 def breadth():
     print "Declare variables"
@@ -136,7 +150,7 @@ def breadth():
     bigNumber = 100000
     currentNode = 0
     gameWon = False
-    counterNewKids = 0
+
 
     cls()
 
@@ -147,17 +161,13 @@ def breadth():
 
     for x in range(bigNumber):
         if gameWon == True:
-            print "Should stop now"
             break
         elif gameWon == False:
             depth=x+1
             path = depth
             #reset width counter
-            print "widthCounter reset"
             global widthCounter
             widthCounter=1
-            counterDown=counterNewKids
-            counterNewKids=0
             print "Width counter reset should now be 1, but it is ", widthCounter
             print "Depth is now", depth
             for y in range(bigNumber):
@@ -171,7 +181,6 @@ def breadth():
                     if evaluate(anodes[currentNode].matrix) == "WON":
                         stats(anodes[currentNode].matrix)
                         gameWon == True
-                        print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
                         break
                     elif evaluate(anodes[currentNode].matrix) == "NOT YET":
                         print "Not Winner"
@@ -182,61 +191,39 @@ def breadth():
                         print "Removed from open list"
                         #add to closed list
                         closedList.append(anodes[currentNode])
-                        counterDown-=1
                         print "Added to Closed list"
                         print "Length of Closed list", len(closedList)
 
-                        beforeBirth = len(anodes)
 
                         #Make Children of current state
                         makeChildren(anodes[currentNode].matrix, (anodes[currentNode].depth)+1)
-                        print "Children made!"
-
-                        afterBirth = len(anodes)
-
-                        counterNewKids+=afterBirth-beforeBirth
-
-                        #if there is a node at current depth and next width
-                        if counterDown>1:
-                                print "there should still be nodes left to breadthify"
-                                if visitedPreviously(anodes[currentNode]) == False:
-                                    #Go to next node
-                                    currentNode+=1
-                                    width+=1
-                                    print "Now headed for node", currentNode, "depth and with", depth, ":", width
-                                    #raw_input("presskeytoadvance")
 
                         #if there is NOT a node at the current depth and next width
-                        else:
+                        if nodeAtDepthWidth(depth, width+1) == False:
                             #go to line 28
                             currentNode+=1
 
                             print "There is no node at next depth and next width", depth, ":", width+1
                             print "Moving to node", currentNode
-                            #raw_input("presskeytoadvance")
+                            stopping=raw_input('Waiting for poke')
                             break
 
 
-                    #evaluate for winner
-                    if evaluate(anodes[currentNode].matrix) == "WON":
-                        stats(anodes[currentNode].matrix)
-                        gameWon == True
-                        print "WINNERWINNERWINNERWINNERWINNer"
-                        break
-
-
+                        #if there is a node at the current depth and next width
+                        if nodeAtDepthWidth(depth, width+1) == True:
+                            print "There is a node at current depth and next width", depth, ":", width+1
+                            if visitedPreviously(anodes[currentNode]) == False:
+                                #Go to next node
+                                currentNode+=1
+                                width+=1
+                                print "Now headed for node", currentNode, "depth and with", depth, ":", width
+                                stopping=raw_input('Waiting for poke')
                 else:
                     print "Node SHOCKINGLY already visited"
                     #Go to next node
-                    #raw_input("presskeytoadvance")
                     currentNode+=1
+                    stopping=raw_input('Waiting for poke')
 
-                #evaluate for winner
-                if evaluate(anodes[currentNode].matrix) == "WON":
-                    stats(anodes[currentNode].matrix)
-                    gameWon == True
-                    print "WINNERR"
-                    break
 
 
 
