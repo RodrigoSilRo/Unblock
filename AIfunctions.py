@@ -2,7 +2,7 @@ from unblock import *
 from copy import copy, deepcopy
 import os
 import time
-
+import sys
 
 
 grid=createfield()
@@ -172,7 +172,7 @@ def breadth():
                         stats(anodes[currentNode].matrix)
                         gameWon == True
                         print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
-                        break
+                        sys.exit()
                     elif evaluate(anodes[currentNode].matrix) == "NOT YET":
                         print "Not Winner"
 
