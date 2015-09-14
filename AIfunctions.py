@@ -12,10 +12,7 @@ cars=["HT1","HT2","HC1","MC1","VT1","VT2","VC1","VC2"]
 anodes=[]
 openList=[]
 closedList=[]
-###
-#depth=1
-#width=1
-###
+path = 1
 
 class Node(object):
     #States visited by algorithm
@@ -34,15 +31,16 @@ def cls():
 
 def stats(grid):
     #Update screen with vitals
-    time.sleep(.5)
+    #time.sleep(.5)
     cls()
     print " "
     print " "
     print " "
     print " "
+    print "anodes[",len(anodes)-1,"]"
     pgame(grid)
     print "Number of states created",len(anodes)
-    print "Length of path", depth
+    print "Length of path", path
     print "Open List length", len(openList)
     print "Closed List length", len(closedList)
 
@@ -52,11 +50,11 @@ def newNode(currentGrid):
     for elem in anodes:
         if currentGrid == elem.matrix:
             existPreviously = True
-
+            print "this node has already existed, I'm not making a new node for you"
     if existPreviously == False:
-
+        print "making a new node for ya"
         #New Node
-        anodes.append(Node(depth,width,currentGrid))
+        anodes.append(Node(1,1,currentGrid))
         openList.append(anodes[len(anodes)-1])
         stats(currentGrid)
 
@@ -72,6 +70,7 @@ def makeChildren(grid):
         #try up, if yes...
         if up(currentGrid, elem) == "Done":
             newNode(currentGrid)
+            print "Moved up car", elem
             currentGrid = gridCopy(grid)
             if down(currentGrid, elem) == "Done":
                 newNode(currentGrid)
@@ -79,6 +78,7 @@ def makeChildren(grid):
         #try down, if yes..
         elif down(currentGrid, elem) == "Done":
             newNode(currentGrid)
+            print "Moved down car", elem
             currentGrid = gridCopy(grid)
             if up(currentGrid, elem) == "Done":
                 newNode(currentGrid)
@@ -86,6 +86,7 @@ def makeChildren(grid):
             #try left, if yes..
         elif left(currentGrid, elem) == "Done":
             newNode(currentGrid)
+            print "Moved left car", elem
             currentGrid = gridCopy(grid)
             if right(currentGrid, elem) == "Done":
                 newNode(currentGrid)
@@ -93,6 +94,7 @@ def makeChildren(grid):
             #try right, if yes..
         elif right(currentGrid, elem) == "Done":
             newNode(currentGrid)
+            print "Moved right car", elem
             currentGrid = gridCopy(grid)
             if left(currentGrid, elem) == "Done":
                 newNode(currentGrid)
