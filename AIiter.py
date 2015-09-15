@@ -44,7 +44,7 @@ def stats(grid):
     print "Number of states created",len(anodes)
     print "Open List length", len(openList)
     print "Closed List length", len(closedList)
-    print "Total time elapsed ", time.time()-start
+    #print "Total time elapsed ", time.time()-start
 
 def newNode(currentGrid, depth):
     #check to make sure Node not previously created
@@ -134,8 +134,8 @@ def visitedPreviously(node):
 
 
 
-def depth():
-    start = time.time()
+def iter():
+    #start = time.time()
     print "Declare variables"
     depth=1
     width=1
@@ -146,74 +146,90 @@ def depth():
     previousNodesAtWidth = 0
     listCounter = 0
 
+    global closedList
+
     cls()
 
-    print "Store Initial State"
-    #Store Initial State
-    anodes.append(Node(depth,width,gridCopy(grid)))
-    global openList
-    openList.append(anodes[0])
+    for c in range(bigNumber):
+
+        print "Store Initial State"
+        #Store Initial State
+        global anodes
+        anodes.append(Node(depth,width,gridCopy(grid)))
+        global openList
+        openList.append(anodes[0])
+
+        for x in range(bigNumber):
+            print "openList"
+            for elem in openList:
+                print elem.depth, elem.width, elem
+
+            #if open list is empty,
+            if len(openList) == 0:
+                anodes=[]
+                openList=[]
+                closedList=[]
+                print "c =", c
+                #raw_input("waiting to BREAK")
+                break
+
+            else:
+
+                #if is not in closed list
+                if visitedPreviously(openList[0]) == False:
+                    print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
+
+                #evaluate for winner
+                if evaluate(openList[0].matrix) == "WON":
+                    stats(openList[0].matrix)
+                    gameWon == True
+
+                    print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
+                    return
+                elif evaluate(openList[0].matrix) == "NOT YET":
+                    print "Not Winner"
+
+                    previousNodesAtWidth=1
+
+                    print "widthCounter info", previousNodesAtWidth
+                    #set widthCounter
+                    for elem in anodes:
+                    #    print "Looking for nodes at same depth as children to be made"
+                        if elem.depth == openList[0].depth+1:
+                            previousNodesAtWidth+=1
+                    #        print "New node found at depth, total now= ", previousNodesAtWidth
+                    #    else:
+                    #        print "No nodes found at children level depth"
+
+                    global widthCounter
+                    widthCounter = previousNodesAtWidth
+                    print "after search, widthCounter now ", widthCounter
+
+                   #add to closed list
+                    #global closedList
+                    closedList.append(openList[0])
+                    currentNode
+                    print "Added to Closed list", closedList[len(closedList)-1]
+                    print "Length of Closed list", len(closedList)
+
+                    currentNode = closedList[len(closedList)-1]
+
+                    #Make Children of current state ONLY IF DEPTH ALLOWED
+                    if openList[0].depth < c+1:
+                        makeChildren(openList[0].matrix, openList[0].depth+1)
+                        print "Children made!"
 
 
-    for x in range(bigNumber):
-        print "openList"
-        for elem in openList:
-            print elem.depth, elem.width, elem
-        #if is not in closed list
-        if visitedPreviously(openList[0]) == False:
-            print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
+                    #remove from open list
 
-            #evaluate for winner
-            if evaluate(openList[0].matrix) == "WON":
-                stats(openList[0].matrix)
-                gameWon == True
+                    openList.pop(openList.index(currentNode))
+                    print "Removed from open list, name: ", currentNode
+                    print "Length of open List", len(openList)
+                    print "c =", c
+                    #raw_input("waitingforkeypress")
 
-                print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
-                return
-            elif evaluate(openList[0].matrix) == "NOT YET":
-                print "Not Winner"
+            #else:
+            #    print "Node SHOCKINGLY already visited"
+                #Go to next node
 
-                previousNodesAtWidth=1
-
-                print "widthCounter info", previousNodesAtWidth
-                #set widthCounter
-                for elem in anodes:
-                    print "Looking for nodes at same depth as children to be made"
-                    if elem.depth == openList[0].depth+1:
-                        previousNodesAtWidth+=1
-                        print "New node found at depth, total now= ", previousNodesAtWidth
-                    else:
-                        print "No nodes found at children level depth"
-
-                global widthCounter
-                widthCounter = previousNodesAtWidth
-                print "after search, widthCounter now ", widthCounter
-
-               #add to closed list
-                closedList.append(openList[0])
-                currentNode
-                print "Added to Closed list", closedList[len(closedList)-1]
-                print "Length of Closed list", len(closedList)
-                for elem in closedList:
-                    print elem.depth, ":", elem.width, elem
-
-                currentNode = closedList[len(closedList)-1]
-
-                #Make Children of current state
-                makeChildren(openList[0].matrix, openList[0].depth+1)
-                print "Children made!"
-
-
-                #remove from open list
-
-                openList.pop(openList.index(currentNode))
-                print "Removed from open list, name: ", currentNode
-                print "Length of open List", len(openList)
-
-                #raw_input("waitingforkeypress")
-
-        else:
-            print "Node SHOCKINGLY already visited"
-            #Go to next node
-
-            #raw_input("presskeytoadvance")
+            #    raw_input("presskeytoadvance")

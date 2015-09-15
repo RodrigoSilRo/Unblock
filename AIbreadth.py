@@ -33,7 +33,7 @@ def cls():
 
 def stats(grid):
     #Update screen with vitals
-    #time.sleep(.15)
+    time.sleep(.15)
     cls()
     print " "
     print " "
