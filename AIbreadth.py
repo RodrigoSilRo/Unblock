@@ -51,9 +51,9 @@ def newNode(currentGrid, depth):
     for elem in anodes:
         if currentGrid == elem.matrix:
             existPreviously = True
-            print "this node has already existed, I'm not making a new node for you"
+            #print "this node has already existed, I'm not making a new node for you"
     if existPreviously == False:
-        print "making a new node for ya"
+        #print "making a new node for ya"
         #New Node
         global widthCounter
         anodes.append(Node(depth,widthCounter,currentGrid))
@@ -73,7 +73,7 @@ def makeChildren(grid, depth):
 
         #try up, if yes...
         if up(currentGrid, elem) == "Done":
-            print "Moved up car", elem
+            #print "Moved up car", elem
             newNode(currentGrid, depth)
 
             currentGrid = gridCopy(grid)
@@ -82,7 +82,7 @@ def makeChildren(grid, depth):
 
         #try down, if yes..
         elif down(currentGrid, elem) == "Done":
-            print "Moved down car", elem
+            #print "Moved down car", elem
             newNode(currentGrid, depth)
 
             currentGrid = gridCopy(grid)
@@ -91,7 +91,7 @@ def makeChildren(grid, depth):
 
             #try left, if yes..
         elif left(currentGrid, elem) == "Done":
-            print "Moved left car", elem
+            #print "Moved left car", elem
             newNode(currentGrid, depth)
 
             currentGrid = gridCopy(grid)
@@ -100,7 +100,7 @@ def makeChildren(grid, depth):
 
             #try right, if yes..
         elif right(currentGrid, elem) == "Done":
-            print "Moved right car", elem
+            #print "Moved right car", elem
             newNode(currentGrid, depth)
 
             currentGrid = gridCopy(grid)
@@ -108,7 +108,7 @@ def makeChildren(grid, depth):
                 newNode(currentGrid, depth)
 
         else:
-            print "tried car", elem, " and No New Children"
+            #print "tried car", elem, " and No New Children"
 
 
 
@@ -116,21 +116,22 @@ def makeChildren(grid, depth):
 def visitedPreviously(node):
     existPreviously = False
     if len(closedList) == 0:
-        print "closed list is blank"
+        #print "closed list is blank"
         return existPreviously
     else:
         for elem in closedList:
             if node == elem:
                 existPreviously = True
-                print "closed list had this node"
+                #print "closed list had this node"
                 return existPreviously
             else:
-                print "node was not in closed list"
+                #print "node was not in closed list"
                 return existPreviously
 
 
 def breadth():
-    print "Declare variables"
+    startTime = time.clock()
+    #print "Declare variables"
     depth=1
     width=1
     bigNumber = 100000
@@ -140,30 +141,30 @@ def breadth():
 
     cls()
 
-    print "Store Initial State"
+    #33print "Store Initial State"
     #Store Initial State
     anodes.append(Node(depth,width,gridCopy(grid)))
     openList.append(anodes[0])
 
     for x in range(bigNumber):
         if gameWon == True:
-            print "Should stop now"
+            #print "Should stop now"
             break
         elif gameWon == False:
             depth=x+1
             global tree
             tree = depth
             #reset width counter
-            print "widthCounter reset"
+            #print "widthCounter reset"
             global widthCounter
             widthCounter=1
             counterDown=counterNewKids
             counterNewKids=0
-            print "Width counter reset should now be 1, but it is ", widthCounter
-            print "Depth is now", depth
+            #print "Width counter reset should now be 1, but it is ", widthCounter
+            #print "Depth is now", depth
             for y in range(bigNumber):
                 width = y+1
-                print "Width is now", width
+                #print "Width is now", width
 
                 #if is not in closed list
                 if visitedPreviously(anodes[currentNode]) == False:
@@ -173,27 +174,28 @@ def breadth():
                         stats(anodes[currentNode].matrix)
                         gameWon == True
                         print "Length of path is:", anodes[currentNode].depth
+                        print "Time to complete search = ", (time.clock()-startTime)*6
                         print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
                         return
                     elif evaluate(anodes[currentNode].matrix) == "NOT YET":
-                        print "Not Winner"
+                        #print "Not Winner"
 
                         #remove from open list
-                        print "currentNode ", currentNode
+                        #print "currentNode ", currentNode
                         openList.remove(anodes[currentNode])
-                        print "Removed from open list"
+                        #print "Removed from open list"
                         #add to closed list
                         closedList.append(anodes[currentNode])
                         counterDown-=1
-                        print "Added to Closed list"
-                        print "Length of Closed list", len(closedList)
+                        #print "Added to Closed list"
+                        #print "Length of Closed list", len(closedList)
 
                         beforeBirth = len(anodes)
 
 
                         #Make Children of current state
                         makeChildren(anodes[currentNode].matrix, (anodes[currentNode].depth)+1)
-                        print "Children made!"
+                        #print "Children made!"
 
                         afterBirth = len(anodes)
 
@@ -201,12 +203,12 @@ def breadth():
 
                         #if there is a node at current depth and next width
                         if counterDown>1:
-                                print "there should still be nodes left to breadthify"
+                                #print "there should still be nodes left to breadthify"
                                 if visitedPreviously(anodes[currentNode]) == False:
                                     #Go to next node
                                     currentNode+=1
                                     width+=1
-                                    print "Now headed for node", currentNode, "depth and with", depth, ":", width
+                                    #print "Now headed for node", currentNode, "depth and with", depth, ":", width
                                     #raw_input("presskeytoadvance")
 
                         #if there is NOT a node at the current depth and next width
@@ -214,8 +216,8 @@ def breadth():
                             #go to line 28
                             currentNode+=1
 
-                            print "There is no node at next depth and next width", depth, ":", width+1
-                            print "Moving to node", currentNode
+                            #print "There is no node at next depth and next width", depth, ":", width+1
+                            #print "Moving to node", currentNode
                             #raw_input("presskeytoadvance")
                             break
 
@@ -224,12 +226,12 @@ def breadth():
                     if evaluate(anodes[currentNode].matrix) == "WON":
                         stats(anodes[currentNode].matrix)
                         gameWon == True
-                        print "WINNERWINNERWINNERWINNERWINNer"
+                        #print "WINNERWINNERWINNERWINNERWINNer"
                         break
 
 
                 else:
-                    print "Node SHOCKINGLY already visited"
+                    #print "Node SHOCKINGLY already visited"
                     #Go to next node
                     #raw_input("presskeytoadvance")
                     currentNode+=1
@@ -238,97 +240,5 @@ def breadth():
                 if evaluate(anodes[currentNode].matrix) == "WON":
                     stats(anodes[currentNode].matrix)
                     gameWon == True
-                    print "WINNERR"
+                    #print "WINNERR"
                     break
-
-
-
-def depth():
-    print "Declare variables"
-    depth=1
-    width=1
-    bigNumber = 100000
-    currentNode = 0
-    gameWon = False
-    counterNewKids = 0
-    previousNodesAtWidth = 0
-    openListTotal = []
-    listCounter = 0
-
-    cls()
-
-    print "Store Initial State"
-    #Store Initial State
-    anodes.append(Node(depth,width,gridCopy(grid)))
-    global openList
-    openList.append(anodes[0])
-
-
-    for x in range(bigNumber):
-
-        #if is not in closed list
-        if visitedPreviously(anodes[currentNode]) == False:
-            print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
-            #evaluate for winner
-            if evaluate(openList[0].matrix) == "WON":
-                stats(openList[0].matrix)
-                gameWon == True
-                print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
-                return
-            elif evaluate(openList[0].matrix) == "NOT YET":
-                print "Not Winner"
-
-                #make Children
-                beforeBirth = len(anodes)
-                print "beforeBirth ", beforeBirth
-
-                previousNodesAtWidth=0
-
-                #set widthCounter
-                for elem in anodes:
-                    print "Looking for nodes at same depth as children to be made"
-                    if elem.depth == openList[0].depth+1:
-                        previousNodesAtWidth+=1
-                        print "New node found at depth, total now= ", previousNodesAtWidth
-
-                widthCounter = previousNodesAtWidth
-
-
-                #Make Children of current state
-                makeChildren(openList[0].matrix, openList[0].depth+1)
-                print "Children made!"
-
-                afterBirth = len(anodes)
-                print "afterBirth ", afterBirth
-
-
-                #add children to openListTotal
-                for elem in openList:
-                    openListTotal.insert(listCounter, elem)
-                    listCounter+=1
-
-
-                #add to closed list
-                closedList.append(openList[0])
-                print "Added to Closed list"
-                print "Length of Closed list", len(closedList)
-                for elem in closedList:
-                    print elem.depth, ":", elem.width, elem
-                #remove from open list
-                print "currentNode ", currentNode
-                openList.remove(openList[0])
-                print "Removed from open list"
-                print "Length of open List", len(openList)
-
-                #reset listCounter
-                listCounter=0
-                #reset openList
-                openList=[]
-
-
-                raw_input("waitingforkeypress")
-
-        else:
-            print "Node SHOCKINGLY already visited"
-            #Go to next node
-            #raw_input("presskeytoadvance")
