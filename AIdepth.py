@@ -111,7 +111,7 @@ def makeChildren(grid, depth):
 
         else:
             #print "tried car", elem, " and No New Children"
-
+            pass
 
 
 
@@ -135,7 +135,7 @@ def visitedPreviously(node):
 
 
 def depth():
-    startTime = time.clock()
+    startTime = time.time()
     #print "Declare variables"
     depth=1
     width=1
@@ -160,64 +160,65 @@ def depth():
         for elem in openList:
             #print elem.depth, elem.width, elem
         #if is not in closed list
-        if visitedPreviously(openList[0]) == False:
-            #print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
+            if visitedPreviously(openList[0]) == False:
+                #print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
 
-            #evaluate for winner
-            if evaluate(openList[0].matrix) == "WON":
-                stats(openList[0].matrix)
-                gameWon == True
+                #evaluate for winner
+                if evaluate(openList[0].matrix) == "WON":
+                    stats(openList[0].matrix)
+                    gameWon == True
 
-                #global startTime
-                print "Time to complete search = ", (time.clock()-startTime)*6
-                print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
-
-
-                return
-            elif evaluate(openList[0].matrix) == "NOT YET":
-                #print "Not Winner"
-
-                previousNodesAtWidth=1
-
-                #print "widthCounter info", previousNodesAtWidth
-                #set widthCounter
-                for elem in anodes:
-                    #print "Looking for nodes at same depth as children to be made"
-                    if elem.depth == openList[0].depth+1:
-                        previousNodesAtWidth+=1
-                        #print "New node found at depth, total now= ", previousNodesAtWidth
-                    else:
-                        #print "No nodes found at children level depth"
-
-                global widthCounter
-                widthCounter = previousNodesAtWidth
-                #print "after search, widthCounter now ", widthCounter
-
-               #add to closed list
-                closedList.append(openList[0])
-                currentNode
-                #print "Added to Closed list", closedList[len(closedList)-1]
-                #print "Length of Closed list", len(closedList)
-                for elem in closedList:
-                    #print elem.depth, ":", elem.width, elem
-
-                currentNode = closedList[len(closedList)-1]
-
-                #Make Children of current state
-                makeChildren(openList[0].matrix, openList[0].depth+1)
-                #print "Children made!"
+                    #global startTime
+                    print "Time to complete search = ", (time.time()-startTime)*7
+                    print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
 
 
-                #remove from open list
+                    return
+                elif evaluate(openList[0].matrix) == "NOT YET":
+                    #print "Not Winner"
 
-                openList.pop(openList.index(currentNode))
-                #print "Removed from open list, name: ", currentNode
-                #print "Length of open List", len(openList)
+                    previousNodesAtWidth=1
 
-                #raw_input("waitingforkeypress")
+                    #print "widthCounter info", previousNodesAtWidth
+                    #set widthCounter
+                    for elem in anodes:
+                        #print "Looking for nodes at same depth as children to be made"
+                        if elem.depth == openList[0].depth+1:
+                            previousNodesAtWidth+=1
+                            #print "New node found at depth, total now= ", previousNodesAtWidth
+                        else:
+                            #print "No nodes found at children level depth"
+                            pass
 
-        else:
-            #print "Node SHOCKINGLY already visited"
-            #Go to next node
+                    global widthCounter
+                    widthCounter = previousNodesAtWidth
+                    #print "after search, widthCounter now ", widthCounter
 
-            #raw_input("presskeytoadvance")
+                   #add to closed list
+                    closedList.append(openList[0])
+                    currentNode
+                    #print "Added to Closed list", closedList[len(closedList)-1]
+                    #print "Length of Closed list", len(closedList)
+                    #for elem in closedList:
+                        #print elem.depth, ":", elem.width, elem
+
+                    currentNode = closedList[len(closedList)-1]
+
+                    #Make Children of current state
+                    makeChildren(openList[0].matrix, openList[0].depth+1)
+                    #print "Children made!"
+
+
+                    #remove from open list
+
+                    openList.pop(openList.index(currentNode))
+                    #print "Removed from open list, name: ", currentNode
+                    #print "Length of open List", len(openList)
+
+                    #raw_input("waitingforkeypress")
+
+            else:
+                #print "Node SHOCKINGLY already visited"
+                #Go to next node
+                pass
+                #raw_input("presskeytoadvance")

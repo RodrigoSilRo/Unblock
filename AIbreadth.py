@@ -33,7 +33,7 @@ def cls():
 
 def stats(grid):
     #Update screen with vitals
-    time.sleep(.15)
+    #time.sleep(.15)
     cls()
     print " "
     print " "
@@ -109,7 +109,7 @@ def makeChildren(grid, depth):
 
         else:
             #print "tried car", elem, " and No New Children"
-
+            pass
 
 
 
@@ -130,7 +130,7 @@ def visitedPreviously(node):
 
 
 def breadth():
-    startTime = time.clock()
+    startTime = time.time()
     #print "Declare variables"
     depth=1
     width=1
@@ -174,7 +174,7 @@ def breadth():
                         stats(anodes[currentNode].matrix)
                         gameWon == True
                         print "Length of path is:", anodes[currentNode].depth
-                        print "Time to complete search = ", (time.clock()-startTime)*6
+                        print "Time to complete search = ", (time.time()-startTime)*6
                         print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
                         return
                     elif evaluate(anodes[currentNode].matrix) == "NOT YET":

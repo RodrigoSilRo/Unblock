@@ -136,7 +136,7 @@ def visitedPreviously(node):
 
 
 def iter():
-    startTime = time.clock()
+    startTime = time.time()
     #print "Declare variables"
     depth=1
     width=1
@@ -164,10 +164,10 @@ def iter():
             #print "increment x, ", x
             #print "openList"
 
-            for elem in openList:
+            #for elem in openList:
                 #print elem.depth, elem.width, elem
 
-            for elem in closedList:
+            #for elem in closedList:
                 #print elem.depth, elem.width, elem
 
             #if open list is empty,
@@ -190,7 +190,7 @@ def iter():
                         stats(openList[0].matrix)
                         gameWon == True
 
-                        print "Time to complete search = ", (time.clock()-startTime)*6
+                        print "Time to complete search = ", (time.time()-startTime)*6
                         print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
                         return
                     elif evaluate(openList[0].matrix) == "NOT YET":
