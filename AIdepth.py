@@ -15,6 +15,8 @@ closedList=[]
 path = 1
 tree = 1
 widthCounter = 1
+maxOpenList = 0
+statesVisited = 0
 
 class Node(object):
     #States visited by algorithm
@@ -39,11 +41,12 @@ def stats(grid):
     print " "
     print " "
     print " "
-    print "anodes[",len(anodes)-1,"]"
+    #print "anodes[",len(anodes)-1,"]"
     pgame(grid)
-    print "Number of states created",len(anodes)
-    print "Open List length", len(openList)
-    print "Closed List length", len(closedList)
+    #print "Number of states created",len(anodes)
+    print "Max Open List length: ", maxOpenList
+    print "Final Closed List length: ", len(closedList)
+    print "Total States Visited: ", statesVisited
     #print "Total time elapsed ", time.time()-start
 
 def newNode(currentGrid, depth):
@@ -57,9 +60,12 @@ def newNode(currentGrid, depth):
         #print "making a new node for ya"
         #New Node
         global widthCounter
+        global maxOpenList
         anodes.append(Node(depth,widthCounter,currentGrid))
         widthCounter+=1
         openList.insert(0, anodes[len(anodes)-1])
+        if len(openList) > maxOpenList:
+                maxOpenList=len(openList)
         #print "added node to open list with depth and width ", depth, ":", widthCounter
         stats(currentGrid)
 
@@ -161,6 +167,8 @@ def depth():
             #print elem.depth, elem.width, elem
         #if is not in closed list
             if visitedPreviously(openList[0]) == False:
+                global statesVisited
+                statesVisited+=1
                 #print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
 
                 #evaluate for winner
@@ -169,6 +177,7 @@ def depth():
                     gameWon == True
 
                     #global startTime
+                    print "Length of path is:", openList[0].depth
                     print "Time to complete search = ", (time.time()-startTime)*7
                     print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
 

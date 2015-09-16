@@ -15,6 +15,8 @@ closedList=[]
 path = 1
 tree = 1
 widthCounter = 1
+maxOpenList = 0
+statesVisited = 0
 
 class Node(object):
     #States visited by algorithm
@@ -39,11 +41,11 @@ def stats(grid):
     print " "
     print " "
     print " "
-    print "anodes[",len(anodes)-1,"]"
+    #print "anodes[",len(anodes)-1,"]"
     pgame(grid)
-    print "Number of states created",len(anodes)
-    print "Open List length", len(openList)
-    print "Closed List length", len(closedList)
+    print "Max Open List length: ", maxOpenList
+    print "Final Closed List length: ", len(closedList)
+    print "Total States Visited: ", statesVisited
 
 def newNode(currentGrid, depth):
     #check to make sure Node not previously created
@@ -56,9 +58,12 @@ def newNode(currentGrid, depth):
         #print "making a new node for ya"
         #New Node
         global widthCounter
+        global maxOpenList
         anodes.append(Node(depth,widthCounter,currentGrid))
         widthCounter+=1
         openList.append(anodes[len(anodes)-1])
+        if len(openList) > maxOpenList:
+                maxOpenList=len(openList)
         stats(currentGrid)
 
 
@@ -168,7 +173,8 @@ def breadth():
 
                 #if is not in closed list
                 if visitedPreviously(anodes[currentNode]) == False:
-
+                    global statesVisited
+                    statesVisited+=1
                     #evaluate for winner
                     if evaluate(anodes[currentNode].matrix) == "WON":
                         stats(anodes[currentNode].matrix)

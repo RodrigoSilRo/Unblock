@@ -15,6 +15,8 @@ closedList=[]
 path = 1
 tree = 1
 widthCounter = 1
+maxOpenList = 0
+statesVisited = 0
 
 class Node(object):
     #States visited by algorithm
@@ -39,11 +41,11 @@ def stats(grid):
     print " "
     print " "
     print " "
-    print "anodes[",len(anodes)-1,"]"
+    #print "anodes[",len(anodes)-1,"]"
     pgame(grid)
-    print "Number of states created",len(anodes)
-    print "Open List length", len(openList)
-    print "Closed List length", len(closedList)
+    print "Max Open List length: ", maxOpenList
+    print "Final Closed List length: ", len(closedList)
+    print "Total States Visited: ", statesVisited
     #print "Total time elapsed ", time.time()-start
 
 def newNode(currentGrid, depth):
@@ -57,11 +59,13 @@ def newNode(currentGrid, depth):
         #print "making a new node for ya"
         #New Node
         global widthCounter
+        global maxOpenList
         anodes.append(Node(depth,widthCounter,currentGrid))
         #print "added node to open list with depth and width ", depth, ":", widthCounter
         widthCounter+=1
         openList.insert(0, anodes[len(anodes)-1])
-
+        if len(openList) > maxOpenList:
+                maxOpenList=len(openList)
         stats(currentGrid)
 
 
@@ -174,7 +178,7 @@ def iter():
             if len(openList) == 0:
                 anodes=[]
                 openList=[]
-                closedList=[]
+                #closedList=[]
                 #print "c =", c
                 #raw_input("waiting to BREAK")
                 break
@@ -183,19 +187,22 @@ def iter():
                 #print "begin else"
                 #if is not in closed list
                 if visitedPreviously(openList[0]) == False:
+                    global statesVisited
+                    statesVisited+=1
                     #print "Next node to be evaluated and procreated is:", openList[0].depth, openList[0].width, openList[0]
-                    global openList
+                    #global openList
                     #evaluate for winner
                     if evaluate(openList[0].matrix) == "WON":
                         stats(openList[0].matrix)
                         gameWon == True
 
+                        print "Length of path is:", openList[0].depth
                         print "Time to complete search = ", (time.time()-startTime)*6
                         print "WINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNERWINNER"
                         return
                     elif evaluate(openList[0].matrix) == "NOT YET":
                         #print "Not Winner"
-                        global openList
+                        #global openList
                         previousNodesAtWidth=1
 
                         #print "widthCounter info", previousNodesAtWidth
